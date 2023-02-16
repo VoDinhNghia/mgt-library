@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 import { Users, UsersDocument } from './schemas/users.schema';
 import { Profile, ProfileDocument } from './schemas/users.profile.schema';
 import { cryptoPassWord } from 'src/commons/crypto';
-import { roles, statusUser } from 'src/commons/constants';
+import { statusUser } from 'src/commons/constants';
 import { UsersFillterDto } from './dto/user.filter.dto';
 import { validateEmail } from 'src/commons/validateEmail';
 import { CommonException } from 'src/abstracts/execeptionError';
@@ -34,9 +34,6 @@ export class UsersService {
       passWord: pass,
       status: statusUser.ACTIVE,
     });
-    if (result.role != roles.LIBRARIAN) {
-      new CommonException(403, `Your are not permission access services.`);
-    }
     return result;
   }
 
