@@ -20,6 +20,12 @@ export class MgtComputers {
   })
   divice?: mongoose.Types.ObjectId;
 
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
+
   @Prop({ default: Date.now })
   createdAt?: Date;
 

@@ -12,7 +12,7 @@ export class ComputerService {
   users?: mongoose.Types.ObjectId;
 
   @Prop()
-  browedTime: Date;
+  brorwedTime: Date;
 
   @Prop()
   returnTime: Date;
@@ -22,6 +22,12 @@ export class ComputerService {
     ref: 'mgtcomputers',
   })
   computer?: mongoose.Types.ObjectId;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

@@ -16,6 +16,12 @@ export class Libraries {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'branchs',
+  })
+  branch?: mongoose.Types.ObjectId;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
   })
   librarian?: mongoose.Types.ObjectId;
