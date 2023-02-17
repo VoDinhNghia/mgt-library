@@ -23,8 +23,9 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. 
+Library service for student management project an university
+### 
+Database only use for an university. If you manage the branch's data, you can use a multi-tenan database.
 
 ## Environment
 ```bash
