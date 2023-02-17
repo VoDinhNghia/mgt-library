@@ -11,6 +11,12 @@ export class LibraryHistory {
   })
   user?: mongoose.Types.ObjectId;
 
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
+
   @Prop()
   checkinAt: Date;
 

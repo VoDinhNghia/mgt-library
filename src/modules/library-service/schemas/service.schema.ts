@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 export type ServiceLibraryDocument = Servicelibrary & Document;
 
@@ -10,6 +10,12 @@ export class Servicelibrary {
     required: true,
   })
   name?: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
 
   @Prop()
   type?: string; // borrow books, magazine, borrow a group room, Reserve your seat in advance

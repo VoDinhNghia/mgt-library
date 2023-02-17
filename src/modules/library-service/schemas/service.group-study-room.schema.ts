@@ -11,8 +11,14 @@ export class GroupStudyRoomService {
   })
   users?: mongoose.Types.ObjectId;
 
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
+
   @Prop()
-  browedTime: Date;
+  brrowedTime: Date;
 
   @Prop()
   returnTime: Date;

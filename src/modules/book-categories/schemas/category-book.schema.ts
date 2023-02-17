@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 export type CategoryBookDocument = CategoryBook & Document;
 
@@ -10,6 +10,18 @@ export class CategoryBook {
     required: true,
   })
   name?: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'bookshefts',
+  })
+  booksheft?: mongoose.Types.ObjectId;
 
   @Prop()
   discription?: string;

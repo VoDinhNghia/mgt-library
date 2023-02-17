@@ -13,6 +13,12 @@ export class Appointment {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'libraries',
+  })
+  library?: mongoose.Types.ObjectId;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'servicelibrarys',
   })
   service?: mongoose.Types.ObjectId;
