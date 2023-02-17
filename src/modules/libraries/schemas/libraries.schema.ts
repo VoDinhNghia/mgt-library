@@ -12,11 +12,14 @@ export class Libraries {
   name?: string;
 
   @Prop()
-  foundYear?: Date;
+  foundYear?: string;
+
+  @Prop()
+  description?: string;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'profiles',
   })
   librarian?: mongoose.Types.ObjectId;
 
