@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { mongoUrl } from './configs/config';
 import { AuthModule } from './modules/auth/auth.module';
+import { LibrariesModule } from './modules/libraries/libraries.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -16,6 +17,7 @@ import { UsersModule } from './modules/users/users.module';
     }),
     UsersModule,
     AuthModule,
+    LibrariesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
