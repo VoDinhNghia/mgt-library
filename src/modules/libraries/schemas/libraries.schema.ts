@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { numberIdLibrary } from 'src/commons/constants';
 
 export type LibrariesDocument = Libraries & Document;
 
@@ -10,6 +11,12 @@ export class Libraries {
     required: true,
   })
   name?: string;
+
+  @Prop({
+    required: true,
+    default: numberIdLibrary,
+  })
+  numberId?: string;
 
   @Prop()
   foundYear?: string;
