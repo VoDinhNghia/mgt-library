@@ -37,8 +37,11 @@ export class LibrariesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<ResponseRequest> {
-    await this.libraryService.updateLibrary(id, updateLibraryDto);
-    return new ResponseRequest(res, true, 'Update library success');
+    const result = await this.libraryService.updateLibrary(
+      id,
+      updateLibraryDto,
+    );
+    return new ResponseRequest(res, result, 'Update library success');
   }
 
   @Get()

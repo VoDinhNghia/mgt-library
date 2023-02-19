@@ -25,12 +25,13 @@ export class LibrariesService {
   async updateLibrary(
     id: string,
     updateLibraryDto: UpdateLibraryDto,
-  ): Promise<void> {
-    const existed = await this.librarySchema.findById(id);
-    if (!existed) {
+  ): Promise<Libraries> {
+    await this.librarySchema.findByIdAndUpdate(id, updateLibraryDto);
+    const result = await this.librarySchema.findById(id);
+    if (!result) {
       new CommonException(404, `Library not found.`);
     }
-    await this.librarySchema.findByIdAndUpdate(id, updateLibraryDto);
+    return result;
   }
 
   async getLibraryInfo(): Promise<Libraries> {
