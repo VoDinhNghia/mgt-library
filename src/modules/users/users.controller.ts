@@ -16,7 +16,7 @@ export class UsersController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
   async getAllUsers(
     @Query() usersFillterDto: UsersFillterDto,
     @Res() res: Response,

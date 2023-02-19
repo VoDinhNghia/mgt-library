@@ -51,3 +51,5 @@ export const typePayments = {
     OWED: 'OWED',
   },
 };
+
+export const numberIdLibrary = '101';
