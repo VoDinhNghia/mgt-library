@@ -1,35 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { Users, UsersDocument } from './schemas/users.schema';
-import { Profile, ProfileDocument } from './schemas/users.profile.schema';
+import { Types } from 'mongoose';
 import { cryptoPassWord } from 'src/commons/crypto';
 import { statusUser } from 'src/commons/constants';
 import { UsersFillterDto } from './dto/user.filter.dto';
-import { validateEmail } from 'src/commons/validateEmail';
-import { CommonException } from 'src/abstracts/execeptionError';
-import { ValidateField } from 'src/abstracts/validateFieldById';
+import { DbConnection } from 'src/commons/dBConnection';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(Users.name) private readonly userSchema: Model<UsersDocument>,
-    @InjectModel(Profile.name)
-    private readonly profileSchema: Model<ProfileDocument>,
-    private readonly validateField: ValidateField,
-  ) {}
-
-  async validateUser(usersValidateDto: Record<string, any>): Promise<void> {
-    if (!validateEmail(usersValidateDto.email)) {
-      new CommonException(400, `Email not correct format.`);
-    }
-    const options = { email: usersValidateDto.email };
-    await this.validateField.existed(this.userSchema, options, 'Email');
-  }
+  constructor(private readonly db: DbConnection) {}
 
   async findByEmailAndPass(email: string, passWord: string) {
     const pass = cryptoPassWord(passWord);
-    const result = await this.userSchema.findOne({
+    const result = await this.db.collection('users').findOne({
       email,
       passWord: pass,
       status: statusUser.ACTIVE,
@@ -38,30 +20,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    return this.userSchema.findOne({ email });
-  }
-
-  async getProfileUser(query: object): Promise<unknown> {
-    return this.profileSchema
-      .find(query)
-      .populate('user', '', this.userSchema)
-      .exec();
-  }
-
-  async update(id: string, payload: Record<string, any>, updatedBy = '') {
-    if (payload.email) {
-      await this.validateUser(payload);
-    }
-    let updateInfo = payload;
-    if (updatedBy) {
-      updateInfo = {
-        ...updateInfo,
-        updatedBy,
-      };
-    }
-    this.userSchema.findByIdAndUpdate(id, updateInfo);
-    const result = await this.getProfileUser({ userId: id });
-    return result;
+    return this.db.collection('users').findOne({ email });
   }
 
   async getAll(query: UsersFillterDto) {
@@ -79,10 +38,10 @@ export class UsersService {
         from: 'profiles',
         localField: '_id',
         foreignField: 'user',
-        as: 'user',
+        as: 'profile',
       },
     };
-    aggregate = [...aggregate, match, lookup];
+    aggregate = [...aggregate, match, lookup, { $unwind: '$profile' }];
     if (searchKey) {
       aggregate = [
         ...aggregate,
@@ -108,15 +67,27 @@ export class UsersService {
       ];
     }
 
-    const result = await this.userSchema.aggregate(aggregate);
+    const cursorAgg = await this.db.collection('users').aggregate(aggregate);
+    const result = await cursorAgg?.toArray();
     return result;
   }
 
-  async findUserById(id: string): Promise<Users | any> {
-    const result = await this.profileSchema
-      .findOne({ user: new Types.ObjectId(id) })
-      .populate('user', '', this.userSchema)
-      .exec();
-    return result;
+  async findUserById(id: string): Promise<any> {
+    const cursorAggregate = await this.db.collection('users').aggregate([
+      {
+        $match: { _id: new Types.ObjectId(id) },
+      },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'profile',
+        },
+      },
+      { $unwind: '$profile' },
+    ]);
+    const result = await cursorAggregate?.toArray();
+    return result[0] ?? {};
   }
 }

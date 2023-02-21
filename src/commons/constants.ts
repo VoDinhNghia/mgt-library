@@ -53,3 +53,5 @@ export const typePayments = {
 };
 
 export const numberIdLibrary = '101';
+
+export const keyAccessBackend = 'libraries-access-key-secrect';

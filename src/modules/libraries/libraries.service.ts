@@ -2,10 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CommonException } from 'src/abstracts/execeptionError';
-import {
-  Profile,
-  ProfileDocument,
-} from '../users/schemas/users.profile.schema';
 import { CreateLibraryDto } from './dtos/libraries.create.dto';
 import { UpdateLibraryDto } from './dtos/libraries.update.dto';
 import { Libraries, LibrariesDocument } from './schemas/libraries.schema';
@@ -16,8 +12,6 @@ export class LibrariesService {
   constructor(
     @InjectModel(Libraries.name)
     private readonly librarySchema: Model<LibrariesDocument>,
-    @InjectModel(Profile.name)
-    private readonly profileSchema: Model<ProfileDocument>,
   ) {}
 
   async initLibrary(createLibraryDto: CreateLibraryDto): Promise<void> {
@@ -42,10 +36,20 @@ export class LibrariesService {
   }
 
   async getLibraryInfo(): Promise<Libraries> {
-    const result = await this.librarySchema
-      .find({})
-      .populate('librarian', '', this.profileSchema)
-      .exec();
+    const result = await this.librarySchema.aggregate([
+      {
+        $match: { numberId: '101' },
+      },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'librarian',
+          foreignField: '_id',
+          as: 'librarian',
+        },
+      },
+      { $unwind: '$librarian' },
+    ]);
     return result[0] ?? {};
   }
 }
