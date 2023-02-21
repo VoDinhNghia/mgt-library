@@ -15,7 +15,6 @@ export class AuthService {
     if (!user) {
       return null;
     }
-    await this.usersService.update(user._id, { statusLogin: true });
     return user;
   }
 
