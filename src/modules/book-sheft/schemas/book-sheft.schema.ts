@@ -17,6 +17,9 @@ export class BookSheft {
   })
   room?: mongoose.Types.ObjectId;
 
+  @Prop()
+  description?: string;
+
   @Prop({ default: Date.now })
   createdAt?: Date;
 

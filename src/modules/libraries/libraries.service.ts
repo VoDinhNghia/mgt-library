@@ -38,9 +38,6 @@ export class LibrariesService {
   async getLibraryInfo(): Promise<Libraries> {
     const result = await this.librarySchema.aggregate([
       {
-        $match: { numberId: '101' },
-      },
-      {
         $lookup: {
           from: 'profiles',
           localField: 'librarian',
