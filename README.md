@@ -29,7 +29,7 @@ Database only use for an university. If you manage the branch's data, you can us
 
 ## Environment
 ```bash
-node 14.10.0
+node ^14.10.0
 mongodb 5.0.13
 format code: Prettier ESLint
 ```
@@ -74,6 +74,11 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+### API Swagger
+```
+http://localhost:3002/api-docs-libraries
 ```
 
 ## Support
