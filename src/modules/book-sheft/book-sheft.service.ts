@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CommonException } from 'src/abstracts/execeptionError';
-import { ValidateField } from 'src/abstracts/validateFieldById';
+import { Pagination } from 'src/abstracts/pagePagination';
 import { DbConnection } from 'src/commons/dBConnection';
 import { CreateBookSheftDto } from './dtos/book-sheft.create.dto';
 import { QueryBookSheftDto } from './dtos/book-sheft.query.dto';
@@ -14,7 +14,6 @@ export class BookSheftService {
   constructor(
     @InjectModel(BookSheft.name)
     private readonly bookSheftSchema: Model<BookSheftDocument>,
-    private readonly validate: ValidateField,
     private readonly db: DbConnection,
   ) {}
 
@@ -85,17 +84,9 @@ export class BookSheftService {
     }
 
     aggregate = [...aggregate, match, lookup, { $unwind: '$room' }];
-    if (limit && page) {
-      aggregate = [
-        ...aggregate,
-        {
-          $skip: Number(limit) * Number(page) - Number(limit),
-        },
-        { $limit: Number(limit) },
-      ];
-    }
+    const aggregatePagination: any = new Pagination(limit, page, aggregate);
 
-    const result = await this.bookSheftSchema.aggregate(aggregate);
+    const result = await this.bookSheftSchema.aggregate(aggregatePagination);
     return result;
   }
 }
