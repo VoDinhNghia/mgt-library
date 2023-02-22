@@ -5,6 +5,8 @@ import { CommonException } from 'src/abstracts/execeptionError';
 import { ValidateField } from 'src/abstracts/validateFieldById';
 import { DbConnection } from 'src/commons/dBConnection';
 import { CreateBookSheftDto } from './dtos/book-sheft.create.dto';
+import { QueryBookSheftDto } from './dtos/book-sheft.query.dto';
+import { UpdateBookSheftDto } from './dtos/book-sheft.update.dto';
 import { BookSheft, BookSheftDocument } from './schemas/book-sheft.schema';
 
 @Injectable()
@@ -49,5 +51,51 @@ export class BookSheftService {
       new CommonException(404, 'Book sheft not found.');
     }
     return result[0];
+  }
+
+  async updateBookSheft(
+    id: string,
+    updateBookSheftDto: UpdateBookSheftDto,
+  ): Promise<BookSheft> {
+    await this.bookSheftSchema.findByIdAndUpdate(id, updateBookSheftDto);
+    const bookSheft = await this.getById(id);
+    return bookSheft;
+  }
+
+  async findAllBookSheft(
+    queryBookSheftDto: QueryBookSheftDto,
+  ): Promise<BookSheft[]> {
+    const { limit, page, searchKey } = queryBookSheftDto;
+    const match: Record<string, any> = { $match: {} };
+    let aggregate: any[] = [];
+    const lookup = {
+      $lookup: {
+        from: 'rooms',
+        localField: 'room',
+        foreignField: '_id',
+        as: 'room',
+      },
+    };
+    if (searchKey) {
+      match.$match.$or = [
+        {
+          name: new RegExp(searchKey),
+        },
+      ];
+    }
+
+    aggregate = [...aggregate, match, lookup, { $unwind: '$room' }];
+    if (limit && page) {
+      aggregate = [
+        ...aggregate,
+        {
+          $skip: Number(limit) * Number(page) - Number(limit),
+        },
+        { $limit: Number(limit) },
+      ];
+    }
+
+    const result = await this.bookSheftSchema.aggregate(aggregate);
+    return result;
   }
 }
