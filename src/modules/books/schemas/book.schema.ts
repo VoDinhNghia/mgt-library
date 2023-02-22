@@ -13,7 +13,7 @@ export class Book {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'categorybooks',
+    ref: 'bookcategorys',
   })
   categoryBook?: mongoose.Types.ObjectId;
 

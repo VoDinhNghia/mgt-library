@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
-export type CategoryBookDocument = CategoryBook & Document;
+export type BookCategoryDocument = BookCategory & Document;
 
 @Schema()
-export class CategoryBook {
+export class BookCategory {
   @Prop({
     type: String,
     required: true,
@@ -18,7 +18,7 @@ export class CategoryBook {
   booksheft?: mongoose.Types.ObjectId;
 
   @Prop()
-  discription?: string;
+  description?: string;
 
   @Prop()
   amount?: number;
@@ -30,4 +30,4 @@ export class CategoryBook {
   updateAt?: Date;
 }
 
-export const CategoryBookSchema = SchemaFactory.createForClass(CategoryBook);
+export const BookCategorySchema = SchemaFactory.createForClass(BookCategory);
