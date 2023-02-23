@@ -42,7 +42,7 @@ export class BookCategoriesController {
   @Get('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
   async getBookCategoryById(
     @Param('id') id: string,
     @Res() res: Response,
@@ -54,7 +54,7 @@ export class BookCategoriesController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
   async getAllBookCategory(
     @Query() queryBookCategoryDto: QueryBookCategoryDto,
     @Res() res: Response,

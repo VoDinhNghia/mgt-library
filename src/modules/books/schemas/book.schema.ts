@@ -13,9 +13,9 @@ export class Book {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'bookcategorys',
+    ref: 'bookcategories',
   })
-  categoryBook?: mongoose.Types.ObjectId;
+  bookCategory?: mongoose.Types.ObjectId;
 
   @Prop()
   description?: string;
