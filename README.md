@@ -78,7 +78,7 @@ $ npm run test:cov
 
 ### API Swagger
 ```
-http://localhost:3002/api-docs-libraries
+http://localhost:3002/api-docs-library
 ```
 
 ## Support
