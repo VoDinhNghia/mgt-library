@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DbConnection } from 'src/commons/dBConnection';
+import { DbConnection } from 'src/constants/dBConnection';
 import { BookSheftController } from './book-sheft.controller';
 import { BookSheftService } from './book-sheft.service';
 import { BookSheft, BookSheftSchema } from './schemas/book-sheft.schema';

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CommonException } from 'src/abstracts/execeptionError';
-import { Pagination } from 'src/abstracts/pagePagination';
-import { DbConnection } from 'src/commons/dBConnection';
+import { CommonException } from 'src/exceptions/execeptionError';
+import { Pagination } from 'src/utils/pagePagination';
+import { DbConnection } from 'src/constants/dBConnection';
 import { CreateBookSheftDto } from './dtos/book-sheft.create.dto';
 import { QueryBookSheftDto } from './dtos/book-sheft.query.dto';
 import { UpdateBookSheftDto } from './dtos/book-sheft.update.dto';
