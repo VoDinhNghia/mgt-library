@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CommonException } from 'src/abstracts/execeptionError';
-import { Pagination } from 'src/abstracts/pagePagination';
+import { CommonException } from 'src/exceptions/execeptionError';
+import { Pagination } from 'src/utils/pagePagination';
 import {
   BookCategory,
   BookCategoryDocument,
