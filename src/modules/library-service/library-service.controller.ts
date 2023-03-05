@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('library-service')
+@Controller('api/library-service')
 export class LibraryServiceController {}

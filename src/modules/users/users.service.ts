@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { cryptoPassWord } from 'src/constants/crypto';
-import { statusUser } from 'src/constants/constant';
+import { EstatusUser } from 'src/constants/constant';
 import { UsersFillterDto } from './dto/user.filter.dto';
 import { DbConnection } from 'src/constants/dBConnection';
 
@@ -9,21 +9,17 @@ import { DbConnection } from 'src/constants/dBConnection';
 export class UsersService {
   constructor(private readonly db: DbConnection) {}
 
-  async findByEmailAndPass(email: string, passWord: string) {
-    const pass = cryptoPassWord(passWord);
+  async findUserAuth(email: string, passWord: string): Promise<any> {
+    const password = cryptoPassWord(passWord);
     const result = await this.db.collection('users').findOne({
       email,
-      passWord: pass,
-      status: statusUser.ACTIVE,
+      passWord: password,
+      status: EstatusUser.ACTIVE,
     });
     return result;
   }
 
-  async findByEmail(email: string) {
-    return this.db.collection('users').findOne({ email });
-  }
-
-  async getAll(query: UsersFillterDto) {
+  async getAllUsers(query: UsersFillterDto) {
     const { searchKey, limit, page, role, status } = query;
     const match: Record<string, any> = { $match: {} };
     if (role) {

@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('mgt-computer')
+@Controller('api/mgt-computer')
 export class MgtComputerController {}
