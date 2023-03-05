@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ResponseRequest } from 'src/utils/responseApi';
-import { roleTypeAccessApi } from 'src/constants/constant';
+import { ErolesUser } from 'src/constants/constant';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RoleGuard } from '../auth/role-auth.guard';
 import { BooksService } from './books.service';
@@ -20,7 +20,7 @@ import { CreateBookDto } from './dtos/books.create.dto';
 import { QueryBookDto } from './dtos/books.query.dto';
 import { UpdateBookDto } from './dtos/books.update.dto';
 
-@Controller('books')
+@Controller('api/books')
 @ApiTags('books')
 export class BooksController {
   constructor(private readonly bookService: BooksService) {}
@@ -28,7 +28,7 @@ export class BooksController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.LIBRARIAN]))
   async createBook(
     @Body() createBookDto: CreateBookDto,
     @Res() res: Response,
@@ -40,7 +40,14 @@ export class BooksController {
   @Get('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
+  @UseGuards(
+    RoleGuard([
+      ErolesUser.LIBRARIAN,
+      ErolesUser.ADMIN,
+      ErolesUser.LECTURER,
+      ErolesUser.STUDENT,
+    ]),
+  )
   async getBookById(
     @Param('id') id: string,
     @Res() res: Response,
@@ -52,7 +59,14 @@ export class BooksController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
+  @UseGuards(
+    RoleGuard([
+      ErolesUser.LIBRARIAN,
+      ErolesUser.ADMIN,
+      ErolesUser.LECTURER,
+      ErolesUser.STUDENT,
+    ]),
+  )
   async getAllBooks(
     @Query() queryBookDto: QueryBookDto,
     @Res() res: Response,
@@ -64,7 +78,7 @@ export class BooksController {
   @Put('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.LIBRARIAN]))
   async updateBook(
     @Param('id') id: string,
     @Body() updateBookDto: UpdateBookDto,

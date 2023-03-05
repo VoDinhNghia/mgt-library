@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ResponseRequest } from 'src/utils/responseApi';
-import { roleTypeAccessApi } from 'src/constants/constant';
+import { ErolesUser } from 'src/constants/constant';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RoleGuard } from '../auth/role-auth.guard';
 import { BookSheftService } from './book-sheft.service';
@@ -20,7 +20,7 @@ import { Response } from 'express';
 import { QueryBookSheftDto } from './dtos/book-sheft.query.dto';
 import { UpdateBookSheftDto } from './dtos/book-sheft.update.dto';
 
-@Controller('book-shefts')
+@Controller('api/book-shefts')
 @ApiTags('book-shefts')
 export class BookSheftController {
   constructor(private readonly bookSheftService: BookSheftService) {}
@@ -28,7 +28,7 @@ export class BookSheftController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.LIBRARIAN]))
   async createBookSheft(
     @Body() createBookSheftDto: CreateBookSheftDto,
     @Res() res: Response,
@@ -42,7 +42,7 @@ export class BookSheftController {
   @Get('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.LIBRARIAN]))
   async getBookSheftById(
     @Param('id') id: string,
     @Res() res: Response,
@@ -54,7 +54,7 @@ export class BookSheftController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.LIBRARIAN]))
   async getAllBookSheft(
     @Query() queryBookSheftDto: QueryBookSheftDto,
     @Res() res: Response,
@@ -68,7 +68,7 @@ export class BookSheftController {
   @Put('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.LIBRARIAN]))
   async updateBookSheft(
     @Param('id') id: string,
     @Body() updateBookSheftDto: UpdateBookSheftDto,

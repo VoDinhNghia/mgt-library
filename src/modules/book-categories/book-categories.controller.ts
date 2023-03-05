@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ResponseRequest } from 'src/utils/responseApi';
-import { roleTypeAccessApi } from 'src/constants/constant';
+import { ErolesUser } from 'src/constants/constant';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RoleGuard } from '../auth/role-auth.guard';
 import { BookCategoriesService } from './book-categories.service';
@@ -20,7 +20,7 @@ import { CreateBookCategoryDto } from './dtos/book-categories.create.dto';
 import { QueryBookCategoryDto } from './dtos/book-categories.query.dto';
 import { UpdateBookCategoryDto } from './dtos/book-categories.update.dto';
 
-@Controller('book-categories')
+@Controller('api/book-categories')
 @ApiTags('book-categories')
 export class BookCategoriesController {
   constructor(private readonly bookCategoryService: BookCategoriesService) {}
@@ -28,7 +28,7 @@ export class BookCategoriesController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.ADMIN]))
   async createBookCategory(
     @Body() createBookCategoryDto: CreateBookCategoryDto,
     @Res() res: Response,
@@ -42,7 +42,14 @@ export class BookCategoriesController {
   @Get('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
+  @UseGuards(
+    RoleGuard([
+      ErolesUser.ADMIN,
+      ErolesUser.LIBRARIAN,
+      ErolesUser.LECTURER,
+      ErolesUser.STUDENT,
+    ]),
+  )
   async getBookCategoryById(
     @Param('id') id: string,
     @Res() res: Response,
@@ -54,7 +61,14 @@ export class BookCategoriesController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.FULL))
+  @UseGuards(
+    RoleGuard([
+      ErolesUser.ADMIN,
+      ErolesUser.LIBRARIAN,
+      ErolesUser.LECTURER,
+      ErolesUser.STUDENT,
+    ]),
+  )
   async getAllBookCategory(
     @Query() queryBookCategoryDto: QueryBookCategoryDto,
     @Res() res: Response,
@@ -68,7 +82,7 @@ export class BookCategoriesController {
   @Put('/:id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @UseGuards(RoleGuard(roleTypeAccessApi.LIBRARIAN))
+  @UseGuards(RoleGuard([ErolesUser.ADMIN]))
   async updateBookCategory(
     @Param('id') id: string,
     @Body() updateBookCategorytDto: UpdateBookCategoryDto,
