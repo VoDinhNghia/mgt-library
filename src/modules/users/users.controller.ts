@@ -6,7 +6,7 @@ import { RoleGuard } from '../auth/role-auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Response } from 'express';
 import { UsersFillterDto } from './dto/user.filter.dto';
-import { ResponseRequest } from 'src/utils/responseApi';
+import { ResponseRequest } from 'src/utils/response-api';
 
 @Controller('api/users')
 @ApiTags('users')

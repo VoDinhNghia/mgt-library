@@ -12,8 +12,8 @@ import { AuthService } from './modules/auth/auth.service';
 import { LoginDto } from './modules/auth/dtos/auth.login.dto';
 import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CommonException } from './exceptions/execeptionError';
-import { ResponseRequest } from './utils/responseApi';
+import { CommonException } from './exceptions/exeception.common-error';
+import { ResponseRequest } from './utils/response-api';
 
 @Controller('api/auth')
 @ApiTags('auth')

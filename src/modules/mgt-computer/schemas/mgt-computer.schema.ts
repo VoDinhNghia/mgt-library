@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
-export type MgtComputerDocument = MgtComputers & Document;
+export type MgtComputersLibraryDocument = MgtComputersLibrary & Document;
 
 @Schema()
-export class MgtComputers {
+export class MgtComputersLibrary {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'rooms',
@@ -13,12 +13,6 @@ export class MgtComputers {
 
   @Prop()
   numberId: string;
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'divicecomputers',
-  })
-  divice?: mongoose.Types.ObjectId;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -33,4 +27,5 @@ export class MgtComputers {
   updateAt?: Date;
 }
 
-export const MgtComputerSchema = SchemaFactory.createForClass(MgtComputers);
+export const MgtComputersLibrarySchema =
+  SchemaFactory.createForClass(MgtComputersLibrary);

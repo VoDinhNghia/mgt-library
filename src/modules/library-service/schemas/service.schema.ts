@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { ElibraryServiceType } from 'src/constants/constant';
 
 export type ServiceLibraryDocument = Servicelibrary & Document;
 
@@ -17,7 +18,7 @@ export class Servicelibrary {
   })
   library?: mongoose.Types.ObjectId;
 
-  @Prop()
+  @Prop({ default: ElibraryServiceType.BORROW_BOOK })
   type?: string; // borrow books, magazine, borrow a group room, Reserve your seat in advance
 
   @Prop()

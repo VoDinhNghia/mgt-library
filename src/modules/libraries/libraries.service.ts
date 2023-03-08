@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CommonException } from 'src/exceptions/execeptionError';
+import { CommonException } from 'src/exceptions/exeception.common-error';
 import { CreateLibraryDto } from './dtos/libraries.create.dto';
 import { UpdateLibraryDto } from './dtos/libraries.update.dto';
 import { Libraries, LibrariesDocument } from './schemas/libraries.schema';

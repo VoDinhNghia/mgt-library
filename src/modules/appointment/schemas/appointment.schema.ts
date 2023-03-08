@@ -1,15 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { EstatusAppoinment } from 'src/constants/constant';
 
-export type AppointmentDocument = Appointment & Document;
+export type LibraryAppointmentDocument = LibraryAppointment & Document;
 
 @Schema()
-export class Appointment {
+export class LibraryAppointment {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'profiles',
   })
-  student?: mongoose.Types.ObjectId;
+  user?: mongoose.Types.ObjectId;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -18,21 +19,22 @@ export class Appointment {
   service?: mongoose.Types.ObjectId;
 
   @Prop()
-  receivedDate?: {
-    date?: Date;
-    status?: string; // expired, accepted, cancel,
-  };
+  receivedDate?: Date;
+
+  @Prop({ default: EstatusAppoinment.ACCEPTED })
+  status?: string; // expired, accepted, cancel,
 
   @Prop()
-  returnSchedule?: {
-    date?: Date;
-    status?: string;
-    extensionDate?: Date;
-    extensionCost?: number;
-  };
+  returnSchedule?: Date;
 
   @Prop()
-  amount?: number;
+  extensionDate?: Date;
+
+  @Prop()
+  extensionCost?: number;
+
+  @Prop()
+  cost?: number;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -59,4 +61,5 @@ export class Appointment {
   updateAt?: Date;
 }
 
-export const AppointmentSchema = SchemaFactory.createForClass(Appointment);
+export const LibraryAppointmentSchema =
+  SchemaFactory.createForClass(LibraryAppointment);
