@@ -1,33 +1,27 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-export type DiviceComputerDocument = DiviceComputers & Document;
+export type DiviceComputersLibraryDocument = DiviceComputersLibrary & Document;
 
 @Schema()
-export class DiviceComputers {
-  @Prop()
-  mouse: {
-    name: string;
-    status: string;
-  };
+export class DiviceComputersLibrary {
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'mgtcomputerslibraries',
+  })
+  mgtComputers?: mongoose.Types.ObjectId;
 
   @Prop()
-  screen: {
-    name: string;
-    status: string;
-  };
+  mouse: string;
 
   @Prop()
-  cpu: {
-    name: string;
-    status: string;
-  };
+  screen: string;
 
   @Prop()
-  headPhone: {
-    name: string;
-    status: string;
-  };
+  cpu: string;
+
+  @Prop()
+  headPhone: string;
 
   @Prop({ default: Date.now })
   createdAt?: Date;
@@ -36,5 +30,6 @@ export class DiviceComputers {
   updateAt?: Date;
 }
 
-export const DiviceComputerSchema =
-  SchemaFactory.createForClass(DiviceComputers);
+export const DiviceComputersLibrarySchema = SchemaFactory.createForClass(
+  DiviceComputersLibrary,
+);
